@@ -6,6 +6,8 @@
 @brief      : 新冠肺炎X光分类 demo，极简代码实现深度学习模型训练，为后续核心模块讲解，章节内容讲解奠定框架性基础。
 """
 import os
+import argparse
+from pathlib import Path
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -15,7 +17,18 @@ import torchvision.transforms as transforms
 from PIL import Image
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="COVID-19 X-ray classification demo")
+    default_root = Path(__file__).resolve().parent / "covid-19-demo" / "covid-19-demo"
+    parser.add_argument("--data_root", type=str, default=str(default_root),
+                        help="Path to covid-19-demo folder containing imgs/ and labels/")
+    parser.add_argument("--epochs", type=int, default=100, help="Training epochs")
+    return parser.parse_args()
+
+
 def main():
+    args = parse_args()
+
     # 思考：如何实现你的模型训练？第一步干什么？第二步干什么？...第n步...
     # step 1/4 : 数据模块：构建dataset, dataloader，实现对硬盘中数据的读取及设定预处理方法
     # step 2/4 : 模型模块：构建神经网络，用于后续训练
@@ -62,26 +75,39 @@ def main():
             :return:
             """
             # 读取txt，解析txt
-            with open(self.txt_path, "r") as f:
-                txt_data = f.read().strip()
-                txt_data = txt_data.split("\n")
+            with open(self.txt_path, "r", encoding="utf-8") as f:
+                txt_data = [line.strip() for line in f if line.strip()]
 
-            self.img_info = [(os.path.join(self.root_dir, i.split()[0]), int(i.split()[2]))
-                             for i in txt_data]
+            self.img_info = []
+            for line in txt_data:
+                parts = line.split()
+                if len(parts) < 3:
+                    raise ValueError("Invalid label line: {}".format(line))
+                img_rel_path = parts[0]
+                # 标签文件中使用 one-hot 标注：covid-19 -> 0 1, no-finding -> 1 0
+                label = int(parts[2])
+                self.img_info.append((os.path.join(self.root_dir, img_rel_path), label))
     # you can download the datasets from
     # https://pan.baidu.com/s/18BsxploWR3pbybFtNsw5fA  code：pyto
-    root_dir = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-demo"  # path to datasets——covid-19-demo
+    root_dir = args.data_root
     img_dir = os.path.join(root_dir, "imgs")
     path_txt_train = os.path.join(root_dir, "labels", "train.txt")
     path_txt_valid = os.path.join(root_dir, "labels", "valid.txt")
+    if not (os.path.exists(img_dir) and os.path.exists(path_txt_train) and os.path.exists(path_txt_valid)):
+        raise FileNotFoundError(
+            "Dataset path invalid. Expected structure under: {}".format(root_dir)
+        )
+
+    print("Using dataset root:", root_dir)
+
     transforms_func = transforms.Compose([
         transforms.Resize((8, 8)),
         transforms.ToTensor(),
     ])
     train_data = COVID19Dataset(root_dir=img_dir, txt_path=path_txt_train, transform=transforms_func)
     valid_data = COVID19Dataset(root_dir=img_dir, txt_path=path_txt_valid, transform=transforms_func)
-    train_loader = DataLoader(dataset=train_data, batch_size=2)
-    valid_loader = DataLoader(dataset=valid_data, batch_size=2)
+    train_loader = DataLoader(dataset=train_data, batch_size=2, shuffle=True)
+    valid_loader = DataLoader(dataset=valid_data, batch_size=2, shuffle=False)
 
     # step 2/4 : 模型模块
     class TinnyCNN(nn.Module):
@@ -103,7 +129,7 @@ def main():
     optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
     scheduler = optim.lr_scheduler.StepLR(optimizer, gamma=0.1, step_size=50)
     # step 4/4 : 迭代模块
-    for epoch in range(100):
+    for epoch in range(args.epochs):
         # 训练集训练
         model.train()
         for data, labels in train_loader:
@@ -130,12 +156,12 @@ def main():
             outputs = model(data)
 
             # loss 计算
-            loss = loss_f(outputs, labels)
+            loss = loss_f(outputs, label)
 
             # 计算分类准确率
             _, predicted = torch.max(outputs.data, 1)
-            correct_num = (predicted == labels).sum()
-            acc_valid = correct_num / labels.shape[0]
+            correct_num = (predicted == label).sum()
+            acc_valid = correct_num / label.shape[0]
             print("Epoch:{} Valid Loss:{:.2f} Acc:{:.0%}".format(epoch, loss, acc_valid))
 
         # 添加停止条件
