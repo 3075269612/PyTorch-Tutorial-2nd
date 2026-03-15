@@ -87,8 +87,8 @@ class Vocabulary:
 
 if __name__ == '__main__':
     max_vocab_size = 20000
-    path = r'G:\deep_learning_data\aclImdb_v1\aclImdb\train'
     BASE_DIR = os.path.dirname(__file__)
+    path = os.path.join(BASE_DIR, 'data', 'aclImdb', 'train')
     out_dir = os.path.join(BASE_DIR, 'result')
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)

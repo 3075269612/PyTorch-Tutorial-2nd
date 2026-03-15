@@ -55,7 +55,9 @@ class AntsBeesDataset(Dataset):
 if __name__ == "__main__":
     # 链接：https://pan.baidu.com/s/1X11v5XEbdrgdgsVAESCVrA
     # 提取码：4wx1
-    root_dir = r"E:\pytorch-tutorial-2nd\data\datasets\mini-hymenoptera_data\train"
+    base_dir = os.path.join(os.path.dirname(__file__), "mini-hymenoptera_data")
+    nested_train = os.path.join(base_dir, "mini-hymenoptera_data", "train")
+    root_dir = nested_train if os.path.exists(nested_train) else os.path.join(base_dir, "train")
     # =========================== 配合 Dataloader ===================================
     normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  # 来自ImageNet数据集统计值
     transforms_train = transforms.Compose([

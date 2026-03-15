@@ -55,7 +55,7 @@ if __name__ == "__main__":
     # download dataset from
     # 链接：https://pan.baidu.com/s/1szfefHgGMeyh6IyfDggLzQ
     # 提取码：ruzz
-    path_img = r"F:\pytorch-tutorial-2nd\data\datasets\covid-19-dataset-3\imgs\ryct.2020200028.fig1a.jpeg"
+    path_img = os.path.join(os.path.dirname(__file__), "covid-19-dataset-3", "imgs", "ryct.2020200028.fig1a.jpeg")
     img_opencv = cv2.imread(path_img)
     writer.add_image('img_opencv_HWC-shape:{}'.format(img_opencv.shape), img_opencv, 0, dataformats='HWC')
     writer.close()

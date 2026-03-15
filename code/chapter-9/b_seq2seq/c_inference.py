@@ -29,7 +29,7 @@ def get_args_parser(add_help=True):
 
     parser = argparse.ArgumentParser(description="PyTorch Classification Training", add_help=add_help)
     parser.add_argument("--ckpt-path", default=r"./Result/2023-11-15_23-31-53/checkpoint_best.pth", type=str, help="ckpt path")
-    parser.add_argument("--data-path", default=r"G:\deep_learning_data\machine_transfer\fra-eng", type=str,
+    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "data", "fra-eng"), type=str,
                         help="dataset path")
     parser.add_argument("--device", default="cuda", type=str, help="device (Use cuda or cpu Default: cuda)")
     parser.add_argument("--random-seed", default=42, type=int, help="random seed")

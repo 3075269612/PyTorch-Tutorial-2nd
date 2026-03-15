@@ -89,7 +89,7 @@ def compute_amax(model, **kwargs):
 def get_args_parser(add_help=True):
     import argparse
     parser = argparse.ArgumentParser(description="PyTorch Classification Training", add_help=add_help)
-    parser.add_argument("--data-path", default=r"G:\deep_learning_data\chest_xray", type=str, help="dataset path")
+    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "data", "chest_xray"), type=str, help="dataset path")
     parser.add_argument("--ckpt-path", default=r"./Result/2023-09-26_01-47-40/checkpoint_best.pth", type=str, help="ckpt path")
     parser.add_argument("--model", default="resnet50", type=str,
                         help="model name; resnet50/convnext/convnext-tiny")

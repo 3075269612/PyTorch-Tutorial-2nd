@@ -8,12 +8,12 @@
 
 import numpy as np
 import cv2
+import os
 
 
 def main():
-    # path_video = r'G:\虎门大桥车流\DJI_0048.MP4'
-    path_video = r'G:\虎门大桥车流\DJI_0047.MP4'
-    # path_video = r'G:\DJI_0049.MP4'
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    path_video = os.path.join(base_dir, 'videos', 'DJI_0047.MP4')
     capture = cv2.VideoCapture(path_video)  # 打开视频
     scale = 0.8  # 图片缩放尺寸，若图片太大，可以缩小一些进行可视化、选点
 

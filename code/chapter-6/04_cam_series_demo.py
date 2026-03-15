@@ -58,9 +58,11 @@ def cam_factory(cam_name_):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
 
-    path_img = "both.png"
-    output_dir = "./Result"
+    path_img = os.path.join(project_root, "asset", "record.jpeg")
+    output_dir = os.path.join(base_dir, "Result")
 
     # 图片读取
     img = cv2.imread(path_img, 1)  # H*W*C

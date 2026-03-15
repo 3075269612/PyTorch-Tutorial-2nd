@@ -6,18 +6,16 @@
 @brief      : albumentations库学习
 """
 import cv2
+import os
 from matplotlib import pyplot as plt
 
 
 if __name__ == "__main__":
-    from albumentations import (
-        HorizontalFlip, Resize, IAAPerspective, ShiftScaleRotate, CLAHE, RandomRotate90,
-        Transpose, ShiftScaleRotate, Blur, OpticalDistortion, GridDistortion, HueSaturationValue,
-        IAAAdditiveGaussianNoise, GaussNoise, MotionBlur, MedianBlur, IAAPiecewiseAffine,
-        IAASharpen, IAAEmboss, RandomContrast, RandomBrightness, Flip, OneOf, Compose
-    )  # 图像变换函数
+    from albumentations import Resize, RandomRotate90, Blur  # 图像变换函数
 
-    path_img = r"F:\pytorch-tutorial-2nd\data\imgs\lena.png"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
+    path_img = os.path.join(project_root, "asset", "record.jpeg")
     image = cv2.imread(path_img, 1)  # BGR
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 

@@ -6,6 +6,7 @@
 @brief      : resnet50 量化效率评估
 """
 
+import os
 import time
 import numpy as np
 import onnxruntime as ort
@@ -45,12 +46,13 @@ def speed_test(bs, model, model_name):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
 
     datasize = 1280
 
-    path_model_float32 = 'resnet50_bs_dynamic.onnx'
-    path_model_float16 = 'resnet50_bs_dynamic_float16.onnx'
-    path_model_int8 = 'resnet50_bs_dynamic_int8.onnx'
+    path_model_float32 = os.path.join(base_dir, 'resnet50_bs_dynamic.onnx')
+    path_model_float16 = os.path.join(base_dir, 'resnet50_bs_dynamic_float16.onnx')
+    path_model_int8 = os.path.join(base_dir, 'resnet50_bs_dynamic_int8.onnx')
 
     # float16
     model = onnx.load(path_model_float32)

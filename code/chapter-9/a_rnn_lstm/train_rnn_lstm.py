@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+﻿# -*- coding:utf-8 -*-
 """
 @file name  : train_rnn_lstm.py
 @author     : TingsongYu https://github.com/TingsongYu
@@ -30,9 +30,9 @@ def get_args_parser(add_help=True):
 
     parser = argparse.ArgumentParser(description="PyTorch Classification Training", add_help=add_help)
 
-    parser.add_argument("--data-path", default=r"G:\deep_learning_data\aclImdb_v1\aclImdb", type=str,
+    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "data", "aclImdb"), type=str,
                         help="dataset path")
-    parser.add_argument("--glove-file-path", default="G:\deep_learning_data\glove.6B\glove.6B.100d.txt", type=str,
+    parser.add_argument("--glove-file-path", default=os.path.join(os.path.dirname(__file__), "data", "glove.6B.100d.txt"), type=str,
                         help="预训练词向量文件")
     parser.add_argument("--model-mode", default="lstm", type=str, help="模型类型，rnn还是lstm")
     parser.add_argument("--device", default="cuda", type=str, help="device (Use cuda or cpu Default: cuda)")
@@ -53,7 +53,7 @@ def get_args_parser(add_help=True):
 
 if __name__ == "__main__":
     classes = ['neg', 'pos']
-    # root_dir = r'G:\deep_learning_data\aclImdb_v1\aclImdb'
+    # root_dir = r'./data/aclImdb'
     result_dir = os.path.join(BASE_DIR, "result")
     input_size = 100  # embedding size
     hidden_size = 128  # hidden state size

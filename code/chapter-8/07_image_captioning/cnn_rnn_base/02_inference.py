@@ -208,9 +208,9 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    args.img = r'G:\deep_learning_data\coco_2014\images\val2014'  #img path or dir
+    args.img = os.path.join(os.path.dirname(__file__), "data", "images", "val2014")  #img path or dir
     args.model = 'BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar'  # model checkpoint
-    args.word_map = r'G:\deep_learning_data\coco_2014\dataset-created\WORDMAP_coco_5_cap_per_img_5_min_word_freq.json'
+    args.word_map = os.path.join(os.path.dirname(__file__), "data", "WORDMAP_coco_5_cap_per_img_5_min_word_freq.json")
     out_dir = './output_img'
 
     # Load model

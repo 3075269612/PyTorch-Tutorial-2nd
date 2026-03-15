@@ -85,8 +85,8 @@ class Predictor(object):
 def main():
     # download from :提取码：mqri](https://pan.baidu.com/s/1CuTDtCeT2-nIvRG7N4iKtw)
     ckpt_path = r'coco_prefix-009-2023-0411.pt'
-    path_img = r'G:\deep_learning_data\coco_2014\images\val2014'
-    # path_img = r'G:\deep_learning_data\coco_2017\images\train2017\train2017'
+    path_img = os.path.join(os.path.dirname(__file__), "data", "images", "val2014")
+    # path_img = os.path.join(os.path.dirname(__file__), "data", "images", "train2017")
     out_dir = './inference_output2'
 
     # 获取路径

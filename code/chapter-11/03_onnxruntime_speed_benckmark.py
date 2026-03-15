@@ -8,6 +8,7 @@
 原因：onnxruntime不会自动释放显存，导致显存不断增长，6G的显存扛不住。
 """
 
+import os
 import time
 import numpy as np
 import onnxruntime as ort
@@ -39,14 +40,15 @@ def speed_test(bs, model, model_name):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
 
     datasize = 1280
 
     # Load the ONNX model
 
-    ort_session_bs1 = ort.InferenceSession('resnet50_bs_1.onnx', providers=['CUDAExecutionProvider'])
-    ort_session_bs128 = ort.InferenceSession('resnet50_bs_128.onnx', providers=['CUDAExecutionProvider'])
-    ort_session_dynamic = ort.InferenceSession('resnet50_bs_dynamic.onnx', providers=['CUDAExecutionProvider'])
+    ort_session_bs1 = ort.InferenceSession(os.path.join(base_dir, 'resnet50_bs_1.onnx'), providers=['CUDAExecutionProvider'])
+    ort_session_bs128 = ort.InferenceSession(os.path.join(base_dir, 'resnet50_bs_128.onnx'), providers=['CUDAExecutionProvider'])
+    ort_session_dynamic = ort.InferenceSession(os.path.join(base_dir, 'resnet50_bs_dynamic.onnx'), providers=['CUDAExecutionProvider'])
 
     # 测试固定 batch size, 由于onnx不会释放显存，所以把3个模型拆开推理
     bs_list = [1, 128]

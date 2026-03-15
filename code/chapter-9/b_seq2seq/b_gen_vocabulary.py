@@ -158,7 +158,7 @@ def get_vocab(text_list, path_out):
 if __name__ == '__main__':
     max_vocab_size = 3000
 
-    data_dir = r"G:\deep_learning_data\machine_transfer\cmn-eng"
+    data_dir = os.path.join(os.path.dirname(__file__), "data", "cmn-eng")
     path_raw = os.path.join(data_dir, "cmn.txt")
     path_train = os.path.join(data_dir, "train.txt")
 

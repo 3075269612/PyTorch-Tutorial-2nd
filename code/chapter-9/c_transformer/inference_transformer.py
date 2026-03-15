@@ -101,7 +101,7 @@ def main():
 if __name__ == "__main__":
     vocab_path_en = os.path.join(BASE_DIR, 'result', "vocab_en.npy")
     vocab_path_fra = os.path.join(BASE_DIR, 'result', "vocab_cmn.npy")
-    root_dir = r"G:\deep_learning_data\machine_transfer\cmn-eng"
+    root_dir = os.path.join(os.path.dirname(__file__), "data", "cmn-eng")
     path_txt_train = os.path.join(root_dir, 'train.txt')
     path_txt_test = os.path.join(root_dir, 'test.txt')
 

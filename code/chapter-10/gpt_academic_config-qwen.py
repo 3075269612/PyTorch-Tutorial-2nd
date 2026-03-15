@@ -122,7 +122,7 @@ MULTI_QUERY_LLM_MODELS = "gpt-3.5-turbo&chatglm3"
 # 如果你选择Qwen系列的模型，那么请在下面的QWEN_MODEL_SELECTION中指定具体的模型
 # 也可以是具体的模型路径
 # QWEN_LOCAL_MODEL_SELECTION = "Qwen/Qwen-1_8B-Chat-Int8"
-QWEN_LOCAL_MODEL_SELECTION = r"G:\04-model-weights\qwen\Qwen-1_8B-Chat"
+QWEN_LOCAL_MODEL_SELECTION = r"./model_weights/qwen/Qwen-1_8B-Chat"
 
 
 # 接入通义千问在线大模型 https://dashscope.console.aliyun.com/

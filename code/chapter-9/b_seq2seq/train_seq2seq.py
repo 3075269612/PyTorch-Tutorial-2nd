@@ -28,7 +28,7 @@ def get_args_parser(add_help=True):
 
     parser = argparse.ArgumentParser(description="PyTorch Classification Training", add_help=add_help)
 
-    parser.add_argument("--data-path", default=r"G:\deep_learning_data\machine_transfer\cmn-eng", type=str,
+    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "data", "cmn-eng"), type=str,
                         help="dataset path")
     parser.add_argument("--device", default="cuda", type=str, help="device (Use cuda or cpu Default: cuda)")
     parser.add_argument("-b", "--batch-size", default=13, type=int, help="the total batch size is $NGPU x batch_size")

@@ -6,6 +6,7 @@
 @brief      : 生成第一个onnx文件
 """
 
+import os
 from onnx import TensorProto
 from onnx.helper import  make_model, make_node, make_graph, make_tensor_value_info
 
@@ -25,6 +26,9 @@ graph = make_graph([node1, node2],  # nodes
 
 onnx_model = make_model(graph)
 
-with open("linear_regression.onnx", "wb") as f:
+base_dir = os.path.dirname(os.path.abspath(__file__))
+output_path = os.path.join(base_dir, "linear_regression.onnx")
+
+with open(output_path, "wb") as f:
     f.write(onnx_model.SerializeToString())
 

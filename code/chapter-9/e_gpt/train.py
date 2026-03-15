@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+﻿# -*- coding:utf-8 -*-
 """
 @file name  : train.py
 @author     : TingsongYu https://github.com/TingsongYu
@@ -132,8 +132,8 @@ def main():
                         help='选择模型参数')
     parser.add_argument('--tokenizer_path', default='cache/vocab_small.txt', type=str, required=False, help='选择词库')
     parser.add_argument('--raw_data_path', default='data/demo_data', type=str, required=False, help='原始训练语料')
-    # parser.add_argument('--raw_data_path', default=r'G:\deep_learning_data\baike2018qa', type=str, required=False, help='原始训练语料')
-    # parser.add_argument('--raw_data_path', default=r'G:\deep_learning_data\wiki_zh_2019\wiki_zh', type=str, required=False, help='原始训练语料')
+    # parser.add_argument('--raw_data_path', default='data/baike2018qa', type=str, required=False, help='原始训练语料')
+    # parser.add_argument('--raw_data_path', default='data/wiki_zh_2019/wiki_zh', type=str, required=False, help='原始训练语料')
     parser.add_argument('--tokenized_data_path', default='data/tokenized/', type=str, required=False,
                         help='tokenized语料存放位置')
     parser.add_argument('--raw', action='store_true', help='是否先做tokenize')

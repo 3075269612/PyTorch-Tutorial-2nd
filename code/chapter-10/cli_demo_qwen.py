@@ -16,8 +16,9 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers.generation import GenerationConfig
 from transformers.trainer_utils import set_seed
 
-# DEFAULT_CKPT_PATH = r"G:\04-model-weights\qwen\Qwen-1_8B-Chat"
-DEFAULT_CKPT_PATH = r"G:\04-model-weights\qwen\Qwen-7B-Chat-Int4"
+# DEFAULT_CKPT_PATH = r"./model_weights/qwen/Qwen-1_8B-Chat"
+DEFAULT_CKPT_PATH = os.path.join(os.path.dirname(__file__), "model_weights", "qwen", "Qwen-7B-Chat-Int4")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 _WELCOME_MSG = '''\
 Welcome to use Qwen-Chat model, type text to start chat, type :h to show command help.
@@ -104,7 +105,7 @@ def _get_input() -> str:
 
 
 def main():
-    path_log = r"gpu_usage_log.txt"
+    path_log = os.path.join(BASE_DIR, "gpu_usage_log.txt")
     f = open(path_log, "w")
 
     parser = argparse.ArgumentParser(

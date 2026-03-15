@@ -8,19 +8,24 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers.generation.utils import GenerationConfig
 
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_MODEL_PATH = os.path.join(BASE_DIR, "model_weights", "baichuan2", "Baichuan2-7B-Chat-4bits")
+
+
 def init_model():
     print("init model ...")
+    model_path = os.environ.get("BAICHUAN2_MODEL_PATH", DEFAULT_MODEL_PATH)
     model = AutoModelForCausalLM.from_pretrained(
-        r"G:\04-model-weights\Baichuan2-7B-Chat-4bits",
+        model_path,
         torch_dtype=torch.float16,
         device_map="auto",
         trust_remote_code=True
     )
     model.generation_config = GenerationConfig.from_pretrained(
-        r"G:\04-model-weights\Baichuan2-7B-Chat-4bits"
+        model_path
     )
     tokenizer = AutoTokenizer.from_pretrained(
-        r"G:\04-model-weights\Baichuan2-7B-Chat-4bits",
+        model_path,
         use_fast=False,
         trust_remote_code=True
     )
@@ -48,7 +53,7 @@ def main(stream=True):
     model, tokenizer = init_model()
     messages = clear_screen()
 
-    path_log = r"gpu_usage_log.txt"
+    path_log = os.path.join(BASE_DIR, "gpu_usage_log.txt")
     f = open(path_log, "w")
 
     while True:

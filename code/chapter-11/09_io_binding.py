@@ -6,6 +6,7 @@
 @brief      : cpu模式下的，多线程
 """
 
+import os
 import time
 import onnxruntime
 import numpy as np
@@ -64,13 +65,14 @@ def speed_test(bs, model, model_name):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
 
     datasize = 1280
 
-    path_model_float32 = 'resnet50_bs_dynamic.onnx'
+    path_model_float32 = os.path.join(base_dir, 'resnet50_bs_dynamic.onnx')
 
     # step1: 设置sess_options
-    ort_session_dynamic = ort.InferenceSession('resnet50_bs_dynamic.onnx', providers=['CUDAExecutionProvider'])
+    ort_session_dynamic = ort.InferenceSession(path_model_float32, providers=['CUDAExecutionProvider'])
 
     # 测试动态 batch size
     bs_list = list(map(lambda x: 2**x,  range(0, 8)))

@@ -60,7 +60,11 @@ class COVID19Dataset(Dataset):
 
 
 if __name__ == "__main__":
-    root_dir = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-demo"  # path to datasets——covid-19-demo
+    chapter3_dir = os.path.dirname(__file__)
+    root_dir = os.path.abspath(os.path.join(chapter3_dir, "covid-19-demo"))
+    if not os.path.isdir(root_dir):
+        raise FileNotFoundError("Dataset directory not found: {}".format(root_dir))
+
     img_dir = os.path.join(root_dir, "imgs")
     path_txt_train = os.path.join(root_dir, "labels", "train.txt")
 

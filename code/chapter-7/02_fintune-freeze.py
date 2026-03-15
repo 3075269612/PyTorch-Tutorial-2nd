@@ -90,7 +90,7 @@ writer = SummaryWriter(log_dir=log_dir)
 
 # ============================ step 1/5 数据 ============================
 # https://download.pytorch.org/tutorial/hymenoptera_data.zip
-data_dir = r"G:\deep_learning_data\hymenoptera_data"
+data_dir = os.path.join(BASEDIR, "..", "chapter-3", "mini-hymenoptera_data")
 
 train_dir = os.path.join(data_dir, "train")
 valid_dir = os.path.join(data_dir, "val")
@@ -128,7 +128,7 @@ resnet18_ft = models.resnet18()
 # 2/3 加载参数
 # download resnet18-f37072fd.pth from: 
 # https://download.pytorch.org/models/resnet18-f37072fd.pth
-path_pretrained_model = r"F:\pytorch-tutorial-2nd\data\model_zoo\resnet18-f37072fd.pth"
+path_pretrained_model = os.path.join(BASEDIR, "model_zoo", "resnet18-f37072fd.pth")
 state_dict_load = torch.load(path_pretrained_model)
 resnet18_ft.load_state_dict(state_dict_load)
 

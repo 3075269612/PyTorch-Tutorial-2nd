@@ -38,8 +38,9 @@ def visdrone2yolo(dir):
 
 
 if __name__ == "__main__":
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     parser = argparse.ArgumentParser(add_help=True)
-    parser.add_argument("--data-path", default=r'G:\deep_learning_data\VisDrone',
+    parser.add_argument("--data-path", default=os.path.join(base_dir, "VisDrone"),
                         type=str, help="dataset path")
     args = parser.parse_args()
     root_dir = args.data_path  # dataset root dir

@@ -6,6 +6,7 @@
 @brief      : resnet50 推理示例
 """
 import json
+import os
 from PIL import Image
 import time
 import numpy as np
@@ -57,15 +58,17 @@ def load_class_names(p_clsnames, p_clsnames_cn):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
 
-    path_img = r'G:\deep_learning_data\coco128\images\train2017\000000000081.jpg'
-    path_classnames = "imagenet1000.json"
-    path_classnames_cn = "imagenet_classnames.txt"
+    path_img = os.path.join(project_root, "asset", "record.jpeg")
+    path_classnames = os.path.join(base_dir, "imagenet1000.json")
+    path_classnames_cn = os.path.join(base_dir, "imagenet_classnames.txt")
 
     # load class names
     cls_n, cls_n_cn = load_class_names(path_classnames, path_classnames_cn)
     # 初始化模型
-    ort_session = ort.InferenceSession('resnet50_bs_1.onnx', providers=['CUDAExecutionProvider'])
+    ort_session = ort.InferenceSession(os.path.join(base_dir, 'resnet50_bs_1.onnx'), providers=['CUDAExecutionProvider'])
 
     # 图片读取
     image = Image.open(path_img).resize((224, 224))

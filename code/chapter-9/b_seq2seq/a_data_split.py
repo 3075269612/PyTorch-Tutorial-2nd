@@ -34,7 +34,7 @@ def split_dataset(input_file, train_file, valid_file, split_ratio_):
 if __name__ == '__main__':
     random.seed(42)
 
-    data_dir = r"G:\deep_learning_data\machine_transfer\cmn-eng"
+    data_dir = os.path.join(os.path.dirname(__file__), "data", "cmn-eng")
     path_raw = os.path.join(data_dir, "cmn.txt")
     path_train = os.path.join(data_dir, "train.txt")
     path_test = os.path.join(data_dir, "test.txt")

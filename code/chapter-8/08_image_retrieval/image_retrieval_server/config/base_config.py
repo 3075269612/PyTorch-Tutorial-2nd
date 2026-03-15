@@ -1,4 +1,4 @@
-# -*- coding=utf-8 -*-
+﻿# -*- coding=utf-8 -*-
 """
 # @file name  : base_config.py
 @author     : TingsongYu https://github.com/TingsongYu
@@ -19,8 +19,8 @@ CFG.clip_backbone_type = 'ViT-B/32'
 CFG.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-# CFG.image_file_dir = r'G:\deep_learning_data\coco_2017\images\val2017'  # test
-CFG.image_file_dir = r'G:\deep_learning_data\coco_2017\images\train2017'
+# CFG.image_file_dir = r'./data/images/val2017'  # test
+CFG.image_file_dir = r"./data/images/train2017"
 
 CFG.database_dir = os.path.join(config_BASE_DIR, '..', 'data')  # 特征数据库存储路径
 if not os.path.exists(CFG.database_dir):

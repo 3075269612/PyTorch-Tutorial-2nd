@@ -6,6 +6,7 @@
 @brief      : resnet50 计算图优化
 """
 
+import os
 import time
 import numpy as np
 import onnxruntime as ort
@@ -45,11 +46,12 @@ def speed_test(bs, model, model_name):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
 
     datasize = 1280
 
-    path_model_float32 = 'resnet50_bs_dynamic.onnx'
-    path_model_graph_optim = 'resnet50_bs_dynamic_ENABLE_EXTENDED.onnx'
+    path_model_float32 = os.path.join(base_dir, 'resnet50_bs_dynamic.onnx')
+    path_model_graph_optim = os.path.join(base_dir, 'resnet50_bs_dynamic_ENABLE_EXTENDED.onnx')
 
     # path_model_float32 = 'vgg16_bs_dynamic.onnx'
     # path_model_graph_optim = 'vgg16_bs_dynamic_ENABLE_EXTENDED.onnx'

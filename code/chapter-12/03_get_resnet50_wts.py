@@ -7,13 +7,15 @@
 参考自：https://github.com/wang-xinyu/pytorchx/tree/master/resnet
 """
 import struct
+import os
 import torch
 import torchvision
 
 
 if __name__ == '__main__':
-    path_pth = "resnet50.pth"
-    path_wts = "resnet50.wts"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    path_pth = os.path.join(base_dir, "resnet50.pth")
+    path_wts = os.path.join(base_dir, "resnet50.wts")
 
     # step1 加载模型
     net = torchvision.models.resnet50(weights='IMAGENET1K_V1')

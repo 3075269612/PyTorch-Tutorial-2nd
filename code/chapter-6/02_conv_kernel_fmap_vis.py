@@ -6,6 +6,7 @@
 @brief      : 卷积核可视化，特征图可视化
 """
 import torch.nn as nn
+import os
 from PIL import Image
 import torchvision.transforms as transforms
 from torch.utils.tensorboard import SummaryWriter
@@ -14,6 +15,8 @@ import torchvision.models as models
 
 
 if __name__ == "__main__":
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
     # ----------------------------------- kernel visualization -----------------------------------
     writer = SummaryWriter(comment='kernel', filename_suffix="_test_your_filename_suffix")
     alexnet = models.alexnet(pretrained=True)
@@ -53,7 +56,7 @@ if __name__ == "__main__":
 
     # 数据
     # you can download lena from anywhere. tip: lena(Lena Soderberg, 莱娜·瑟德贝里)
-    path_img = r"F:\pytorch-tutorial-2nd\data\imgs\lena.png"  # your path to image
+    path_img = os.path.join(project_root, "asset", "record.jpeg")
     normMean = [0.49139968, 0.48215827, 0.44653124]
     normStd = [0.24703233, 0.24348505, 0.26158768]
     norm_transform = transforms.Normalize(normMean, normStd)

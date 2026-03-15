@@ -5,8 +5,9 @@ from transformers import AutoTokenizer, AutoModel
 # MODEL_PATH = os.environ.get('MODEL_PATH', 'THUDM/chatglm3-6b')
 # TOKENIZER_PATH = os.environ.get("TOKENIZER_PATH", MODEL_PATH)
 
-MODEL_PATH = r"G:\04-model-weights\chatglm\chatglm3-6b"
-TOKENIZER_PATH = r"G:\04-model-weights\chatglm\chatglm3-6b"
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "model_weights", "chatglm", "chatglm3-6b")
+TOKENIZER_PATH = os.path.join(os.path.dirname(__file__), "model_weights", "chatglm", "chatglm3-6b")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH, trust_remote_code=True)
 model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True).quantize(bits=4, device="cuda").cuda().eval()
@@ -33,7 +34,7 @@ def main():
     past_key_values, history = None, []
     global stop_stream
     print(welcome_prompt)
-    path_log = r"gpu_usage_log.txt"
+    path_log = os.path.join(BASE_DIR, "gpu_usage_log.txt")
     f = open(path_log, "w")
     while True:
         query = input("\n用户：")

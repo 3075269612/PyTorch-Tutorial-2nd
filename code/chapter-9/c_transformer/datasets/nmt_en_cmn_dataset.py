@@ -82,7 +82,7 @@ class NMTDataset(Dataset):
 if __name__ == "__main__":
     import torch
 
-    path_txt = r'G:\deep_learning_data\machine_transfer\cmn-eng\test.txt'
+    path_txt = os.path.join(BASE_DIR, '..', 'data', 'cmn-eng', 'test.txt')
     vocab_path_en = os.path.join(BASE_DIR, '..', 'result', "vocab_en.npy")
     vocab_path_fra = os.path.join(BASE_DIR, '..', 'result', "vocab_cmn.npy")
 

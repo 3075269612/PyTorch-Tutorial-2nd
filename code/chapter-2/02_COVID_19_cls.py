@@ -19,7 +19,7 @@ from PIL import Image
 
 def parse_args():
     parser = argparse.ArgumentParser(description="COVID-19 X-ray classification demo")
-    default_root = Path(__file__).resolve().parent / "covid-19-demo" / "covid-19-demo"
+    default_root = Path(__file__).resolve().parent / "covid-19-demo"
     parser.add_argument("--data_root", type=str, default=str(default_root),
                         help="Path to covid-19-demo folder containing imgs/ and labels/")
     parser.add_argument("--epochs", type=int, default=100, help="Training epochs")
@@ -90,6 +90,9 @@ def main():
     # you can download the datasets from
     # https://pan.baidu.com/s/18BsxploWR3pbybFtNsw5fA  code：pyto
     root_dir = args.data_root
+    nested_root = os.path.join(root_dir, "covid-19-demo")
+    if os.path.isdir(nested_root):
+        root_dir = nested_root
     img_dir = os.path.join(root_dir, "imgs")
     path_txt_train = os.path.join(root_dir, "labels", "train.txt")
     path_txt_valid = os.path.join(root_dir, "labels", "valid.txt")

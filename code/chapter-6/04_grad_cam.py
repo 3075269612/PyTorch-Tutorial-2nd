@@ -123,10 +123,12 @@ def gen_cam(feature_map, grads):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
 
-    path_img = "both.png"
-    path_cls_names = "imagenet1000.json"
-    output_dir = "./Result"
+    path_img = os.path.join(project_root, "asset", "record.jpeg")
+    path_cls_names = os.path.join(base_dir, "imagenet1000.json")
+    output_dir = os.path.join(base_dir, "Result")
     input_size = 224
 
     classes = load_class_names(path_cls_names)

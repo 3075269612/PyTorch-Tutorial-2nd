@@ -77,7 +77,7 @@ class AclImdbDataset(Dataset):
 
 
 if __name__ == "__main__":
-    root_dir = r'G:\deep_learning_data\aclImdb_v1\aclImdb'
+    root_dir = os.path.join(BASE_DIR, '..', 'data', 'aclImdb')
     vocab_path = os.path.join(BASE_DIR, '..', 'result', "aclImdb_vocab.npy")
 
     train_set = AclImdbDataset(root_dir, vocab_path, is_train=True, max_len=200)

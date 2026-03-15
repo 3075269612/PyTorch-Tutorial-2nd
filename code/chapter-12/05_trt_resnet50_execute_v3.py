@@ -7,6 +7,7 @@
 """
 import pycuda.autoinit
 import json
+import os
 import tensorrt as trt
 import pycuda.driver as cuda
 import numpy as np
@@ -131,11 +132,13 @@ def model_infer(context, img_chw_array, l_tensor_name, n_input, n_output, n_io):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
 
-    path_img = r'G:\deep_learning_data\coco128\images\train2017\000000000081.jpg'
-    path_classnames = "../chapter-11/imagenet1000.json"
-    path_classnames_cn = "../chapter-11/imagenet_classnames.txt"
-    model_path = 'resnet50_bs_1.engine'
+    path_img = os.path.join(project_root, "asset", "record.jpeg")
+    path_classnames = os.path.join(base_dir, "..", "chapter-11", "imagenet1000.json")
+    path_classnames_cn = os.path.join(base_dir, "..", "chapter-11", "imagenet_classnames.txt")
+    model_path = os.path.join(base_dir, 'resnet50_bs_1.engine')
     # model_path = 'resnet50_bs_dynamic_1-32-64.engine'
 
     # load class names

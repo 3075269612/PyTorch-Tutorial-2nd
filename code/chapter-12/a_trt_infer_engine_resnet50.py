@@ -6,6 +6,7 @@
 @brief      : TRT 推理类模板，实现图像分类
 """
 import copy
+import os
 
 import cv2
 import json
@@ -189,12 +190,14 @@ class TensorRTInfer(object):
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
 
-    path_img = r'G:\deep_learning_data\coco128\images\train2017\000000000081.jpg'
-    path_classnames = "../chapter-11/imagenet1000.json"
-    path_classnames_cn = "../chapter-11/imagenet_classnames.txt"
+    path_img = os.path.join(project_root, "asset", "record.jpeg")
+    path_classnames = os.path.join(base_dir, "..", "chapter-11", "imagenet1000.json")
+    path_classnames_cn = os.path.join(base_dir, "..", "chapter-11", "imagenet_classnames.txt")
     # model_path = 'resnet50_bs_1.engine'
-    model_path = 'resnet50_bs_dynamic_1-32-64.engine'
+    model_path = os.path.join(base_dir, 'resnet50_bs_dynamic_1-32-64.engine')
 
     # 模型参数配置
     mean_vec = [0.485, 0.456, 0.406]

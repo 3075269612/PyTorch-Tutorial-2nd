@@ -173,7 +173,7 @@ if __name__ == "__main__":
         "-c",
         "--checkpoint-path",
         type=str,
-        default=r"G:\04-model-weights\Yi-6B-Chat-4bits",
+        default=r"./model_weights/Yi-6B-Chat-4bits",
         help="Checkpoint name or path, default to %(default)r",
     )
     parser.add_argument(

@@ -129,14 +129,15 @@ if __name__ == "__main__":
     # you can download dataset from
     # 链接：https://pan.baidu.com/s/1szfefHgGMeyh6IyfDggLzQ
     # 提取码：ruzz
-    root_dir_train = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-dataset-2\train"  # path to your data
-    root_dir_valid = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-dataset-2\valid"  # path to your data
+    _base = os.path.join(os.path.dirname(__file__), "covid-19-dataset2&3")
+    root_dir_train = os.path.join(_base, "covid-19-dataset-2", "train")
+    root_dir_valid = os.path.join(_base, "covid-19-dataset-2", "valid")
     train_set = COVID19Dataset_2(root_dir_train)
     valid_set = COVID19Dataset_2(root_dir_valid)
 
     # =========================== COVID19Dataset_3 ===================================
-    root_dir = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-dataset-3\imgs"  # path to your data
-    path_csv = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-dataset-3\dataset-meta-data.csv"  # path to your data
+    root_dir = os.path.join(_base, "covid-19-dataset-3", "imgs")
+    path_csv = os.path.join(_base, "covid-19-dataset-3", "dataset-meta-data.csv")
     train_set = COVID19Dataset_3(root_dir, path_csv, "train")
     print(len(train_set), next(iter(train_set)))
     print(len(valid_set), next(iter(valid_set)))  # 思考，为什么返回的是 PIL.Image.Image ？

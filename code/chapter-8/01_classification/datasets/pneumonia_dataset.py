@@ -70,8 +70,8 @@ class PneumoniaDataset(Dataset):
 
 
 if __name__ == "__main__":
-    root_dir_train = r"G:\deep_learning_data\chest_xray\train"  # path to your data
-    root_dir_valid = r"G:\deep_learning_data\chest_xray\test"   # path to your data
+    root_dir_train = os.path.join(os.path.dirname(__file__), "..", "data", "chest_xray", "train")  # path to your data
+    root_dir_valid = os.path.join(os.path.dirname(__file__), "..", "data", "chest_xray", "test")   # path to your data
 
     normMean = [0.5]
     normStd = [0.5]

@@ -147,10 +147,10 @@ class BaseCounter(object):
 
 
 def main():
-    path_video = r'G:\虎门大桥车流\DJI_0049.MP4'
-    # path_video = r'G:\DJI_0690.MP4'
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    path_video = os.path.join(base_dir, 'videos', 'DJI_0049.MP4')
     path_output_video = 'track_video.mp4'
-    path_yolov5_ckpt = r'F:\pytorch-tutorial-2nd\code\chapter-8\03_detection\yolov5-master\best.pt'
+    path_yolov5_ckpt = os.path.join(base_dir, '..', '03_detection', 'yolov5-master', 'best.pt')
     # outer_point_set = [(1772, 1394), (2088, 1388), (2102, 1494), (1730, 1452)]
     # inner_point_set = [(1696, 1542), (2160, 1548), (2152, 1616), (1664, 1628)]
     # 0048

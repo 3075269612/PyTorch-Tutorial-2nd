@@ -151,7 +151,7 @@ def data_split():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(add_help=True)
-    parser.add_argument("--data-path", default=r"G:\deep_learning_data\brain-seg\kaggle_3m",
+    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "data", "kaggle_3m"),
                         type=str, help="dataset path")
     args = parser.parse_args()
 

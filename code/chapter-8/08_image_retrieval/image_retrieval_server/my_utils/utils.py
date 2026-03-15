@@ -38,7 +38,7 @@ def cv_imread(path_file):
     return cv_img
 
 if __name__ == '__main__':
-    dir_name = r'G:\deep_learning_data\coco128\images\train2017'
+    dir_name = os.path.join(os.path.dirname(__file__), "data", "images", "train2017")
 
     img_ext = 'jpg JPG jpeg JPEG png PNG'.split()
 

@@ -1,3 +1,4 @@
+import os
 import matplotlib
 matplotlib.rcParams['font.family'] = 'SimHei'
 import matplotlib.pyplot as plt
@@ -11,11 +12,14 @@ def read_data_from_txt(file_path):
         data = [tuple(map(int, line.strip().split(','))) for line in lines]
     return data
 
+base_dir = os.path.dirname(os.path.abspath(__file__))
+log_dir = os.path.join(base_dir, 'gpu_usage')
+
 # 假设txt文件名为'gpu_usage_log.txt'，并放在当前目录下
 # file_path = 'gpu_usage_log-240406.txt'
 # file_path = 'gpu_usage_log-240409-7b-int4.txt'
 # file_path = 'gpu_usage_log - chatglm3.txt'
-file_path = 'gpu_usage_log -baichuan2.txt'
+file_path = os.path.join(log_dir, 'gpu_usage_log -baichuan2.txt')
 data = read_data_from_txt(file_path)
 
 # 分解数据点

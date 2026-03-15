@@ -12,6 +12,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
+import os
 
 from torchensemble.fusion import FusionClassifier
 from torchensemble.voting import VotingClassifier
@@ -63,7 +64,7 @@ if __name__ == "__main__":
     epochs = 100
 
     # Utils
-    data_dir = r"F:\pytorch-tutorial-2nd\data\datasets\cifar10-office"
+    data_dir = os.path.join(os.path.dirname(__file__), "cifar10-office")
     batch_size = 128
     records = []
     torch.manual_seed(0)

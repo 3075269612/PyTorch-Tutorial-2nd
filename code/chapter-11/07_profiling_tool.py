@@ -6,6 +6,7 @@
 @brief      : profiling tool 使用
 """
 
+import os
 import time
 import numpy as np
 import onnxruntime as ort
@@ -21,10 +22,11 @@ print(ort.get_device())
 
 
 if __name__ == '__main__':
+    base_dir = os.path.dirname(os.path.abspath(__file__))
 
     datasize = 1280
 
-    path_model_float32 = 'resnet50_bs_dynamic.onnx'
+    path_model_float32 = os.path.join(base_dir, 'resnet50_bs_dynamic.onnx')
 
     # step1: 设置sess_options
     sess_options = ort.SessionOptions()

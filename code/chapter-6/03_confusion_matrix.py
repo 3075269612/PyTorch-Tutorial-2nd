@@ -63,7 +63,7 @@ valid_transform = transforms.Compose([
 # 构建MyDataset实例
 # root变量下需要存放cifar-10-python.tar.gz 文件
 # cifar-10-python.tar.gz可从 "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz" 下载
-data_dir = r"F:\pytorch-tutorial-2nd\data\datasets\cifar10-office"
+data_dir = os.path.join(os.path.dirname(__file__), "cifar10-office")
 train_set = torchvision.datasets.CIFAR10(root=data_dir, train=True, transform=train_transform, download=True)
 test_set = torchvision.datasets.CIFAR10(root=data_dir, train=False, transform=valid_transform, download=True)
 

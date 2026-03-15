@@ -172,17 +172,25 @@ class COVID19Dataset_2(Dataset):
 
 if __name__ == "__main__":
     # =============================== Concat ================================
+    chapter3_dir = os.path.dirname(__file__)
+
+    def _require_existing_dir(path):
+        if os.path.isdir(path):
+            return os.path.abspath(path)
+        raise FileNotFoundError("Dataset directory not found: {}".format(path))
+
     # set1
-    root_dir = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-demo"  # path to datasets——covid-19-demo
+    root_dir = _require_existing_dir(os.path.join(chapter3_dir, "covid-19-demo"))
     img_dir = os.path.join(root_dir, "imgs")
     path_txt_train = os.path.join(root_dir, "labels", "train.txt")
     train_data_1 = COVID19Dataset(root_dir=img_dir, txt_path=path_txt_train)
     # set2
-    root_dir_train = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-dataset-2\train"  # path to your data
+    dataset23_base = _require_existing_dir(os.path.join(chapter3_dir, "covid-19-dataset2&3"))
+    root_dir_train = os.path.join(dataset23_base, "covid-19-dataset-2", "train")
     train_data_2 = COVID19Dataset_2(root_dir_train)
     # set3
-    root_dir = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-dataset-3\imgs"  # path to your data
-    path_csv = r"E:\pytorch-tutorial-2nd\data\datasets\covid-19-dataset-3\dataset-meta-data.csv"
+    root_dir = os.path.join(dataset23_base, "covid-19-dataset-3", "imgs")
+    path_csv = os.path.join(dataset23_base, "covid-19-dataset-3", "dataset-meta-data.csv")
     train_data_3 = COVID19Dataset_3(root_dir, path_csv, "train")
     # concat
     train_set_all = ConcatDataset([train_data_1, train_data_2, train_data_3])
