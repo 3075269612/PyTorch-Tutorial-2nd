@@ -9,3 +9,19 @@
 /tmp/
 /data/
 .ipynb_checkpoints
+
+# Training outputs and local experiment artifacts
+code/**/runs/
+code/**/Result/
+
+# Local datasets and archives
+code/**/cifar10-office/
+*.tar.gz
+
+# Model weights/checkpoints
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+*.wts
