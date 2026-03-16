@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-# @file name  : 02_fintune-multi-lr.py
+# @file name  : 02_finetune-multi-lr.py
 # @author     :  TingsongYu https://github.com/TingsongYu
 # @date       : 2022-06-24
 # @brief      : finetune方法之不同学习率

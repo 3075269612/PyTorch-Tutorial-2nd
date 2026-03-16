@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-# @file name  : 02_fintune-freeze.py
+# @file name  : 02_finetune-freeze.py
 # @author     :  TingsongYu https://github.com/TingsongYu
 # @date       : 2022-06-24
 # @brief      : finetune方法之冻结特征提取层
