@@ -6,6 +6,7 @@
 @brief      : 卷积核可视化，特征图可视化
 """
 import torch.nn as nn
+import torch
 import os
 from PIL import Image
 import torchvision.transforms as transforms
@@ -14,12 +15,32 @@ import torchvision.utils as vutils
 import torchvision.models as models
 
 
+def build_alexnet_from_local_cache():
+    """Load AlexNet from local cache only; skip network download if cache is missing."""
+    model = models.alexnet(weights=None)
+    checkpoint_path = os.path.join(torch.hub.get_dir(), "checkpoints", "alexnet-owt-7be5be79.pth")
+
+    if os.path.exists(checkpoint_path):
+        try:
+            state_dict = torch.load(checkpoint_path, map_location="cpu")
+            model.load_state_dict(state_dict)
+            print("[Info] Loaded AlexNet weights from local cache.")
+        except Exception as err:
+            print("[Warning] Failed to load local AlexNet weights: {}".format(err))
+            print("[Warning] Continue with randomly initialized AlexNet.")
+    else:
+        print("[Info] Local AlexNet weights not found; continue with randomly initialized AlexNet.")
+
+    model.eval()
+    return model
+
+
 if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
+    alexnet = build_alexnet_from_local_cache()
     # ----------------------------------- kernel visualization -----------------------------------
     writer = SummaryWriter(comment='kernel', filename_suffix="_test_your_filename_suffix")
-    alexnet = models.alexnet(pretrained=True)
     kernel_num = -1
     vis_max = 1
     # 遍历alexnet的module
@@ -71,12 +92,10 @@ if __name__ == "__main__":
         img_tensor = img_transforms(img_pil)
     img_tensor.unsqueeze_(0)  # chw --> bchw
 
-    # 模型
-    alexnet = models.alexnet(pretrained=True)
-
     # forward
     convlayer1 = alexnet.features[0]
-    fmap_1 = convlayer1(img_tensor)
+    with torch.no_grad():
+        fmap_1 = convlayer1(img_tensor)
 
     # 预处理
     fmap_1.transpose_(0, 1)  # bchw=(1, 64, 55, 55) --> (64, 1, 55, 55)

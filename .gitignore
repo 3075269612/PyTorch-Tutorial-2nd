@@ -12,6 +12,7 @@
 
 # Training outputs and local experiment artifacts
 code/**/runs/
+runs/
 code/**/Result/
 
 # Local datasets and archives

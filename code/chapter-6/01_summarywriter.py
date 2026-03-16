@@ -56,8 +56,14 @@ if __name__ == "__main__":
     # 链接：https://pan.baidu.com/s/1szfefHgGMeyh6IyfDggLzQ
     # 提取码：ruzz
     path_img = os.path.join(os.path.dirname(__file__), "covid-19-dataset-3", "imgs", "ryct.2020200028.fig1a.jpeg")
-    img_opencv = cv2.imread(path_img)
-    writer.add_image('img_opencv_HWC-shape:{}'.format(img_opencv.shape), img_opencv, 0, dataformats='HWC')
+    if os.path.exists(path_img):
+        img_opencv = cv2.imread(path_img)
+        if img_opencv is not None:
+            writer.add_image('img_opencv_HWC-shape:{}'.format(img_opencv.shape), img_opencv, 0, dataformats='HWC')
+        else:
+            print("[Warning] OpenCV failed to read image: {}".format(path_img))
+    else:
+        print("[Warning] Image not found, skip add_image: {}".format(path_img))
     writer.close()
 
     # ================================ add_images ================================
