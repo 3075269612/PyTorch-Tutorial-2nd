@@ -6,6 +6,7 @@
 # @brief      : finetune方法之不同学习率
 """
 import os
+os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
 import numpy as np
 import torch
 import torch.nn as nn
@@ -90,7 +91,7 @@ writer = SummaryWriter(log_dir=log_dir)
 
 # ============================ step 1/5 数据 ============================
 # https://download.pytorch.org/tutorial/hymenoptera_data.zip
-data_dir = os.path.join(BASEDIR, "..", "chapter-3", "mini-hymenoptera_data")
+data_dir = os.path.join(BASEDIR, "hymenoptera_data")
 
 train_dir = os.path.join(data_dir, "train")
 valid_dir = os.path.join(data_dir, "val")
@@ -128,8 +129,18 @@ resnet18_ft = models.resnet18()
 # 2/3 加载参数
 # download resnet18-f37072fd.pth from:
 # https://download.pytorch.org/models/resnet18-f37072fd.pth
-path_pretrained_model = os.path.join(BASEDIR, "model_zoo", "resnet18-f37072fd.pth")
-state_dict_load = torch.load(path_pretrained_model)
+candidate_paths = [
+    os.path.join(BASEDIR, "model_zoo", "resnet18-f37072fd.pth"),
+    os.path.join(BASEDIR, "resnet18-f37072fd.pth"),
+]
+path_pretrained_model = next((path for path in candidate_paths if os.path.isfile(path)), None)
+if path_pretrained_model is None:
+    raise FileNotFoundError(
+        "Cannot find pretrained weights resnet18-f37072fd.pth. "
+        "Place it in chapter-7 or chapter-7/model_zoo."
+    )
+
+state_dict_load = torch.load(path_pretrained_model, map_location=device)
 resnet18_ft.load_state_dict(state_dict_load)
 
 # 替换fc层

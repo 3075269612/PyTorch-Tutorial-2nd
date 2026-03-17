@@ -1,6 +1,12 @@
 # ignore some files
 .idea/
+.vscode/
+.venv/
+**/.venv/
+__pycache__/
+**/__pycache__/
 *.pyc
+*.pyo
 *.png
 *.jpg
 *.log
@@ -16,8 +22,11 @@ runs/
 code/**/Result/
 
 # Local datasets and archives
+code/**/hymenoptera_data/
+code/**/hymenoptera_data.zip
 code/**/cifar10-office/
 *.tar.gz
+*.zip
 
 # Model weights/checkpoints
 *.pt
@@ -26,3 +35,4 @@ code/**/cifar10-office/
 *.onnx
 *.engine
 *.wts
+*.pkl

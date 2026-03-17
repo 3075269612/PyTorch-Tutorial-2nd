@@ -6,6 +6,7 @@
 # @brief      : finetune方法之冻结特征提取层
 """
 import os
+os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
 import numpy as np
 import torch
 import torch.nn as nn
@@ -90,7 +91,7 @@ writer = SummaryWriter(log_dir=log_dir)
 
 # ============================ step 1/5 数据 ============================
 # https://download.pytorch.org/tutorial/hymenoptera_data.zip
-data_dir = os.path.join(BASEDIR, "..", "chapter-3", "mini-hymenoptera_data")
+data_dir = os.path.join(BASEDIR, "hymenoptera_data")
 
 train_dir = os.path.join(data_dir, "train")
 valid_dir = os.path.join(data_dir, "val")
@@ -128,8 +129,18 @@ resnet18_ft = models.resnet18()
 # 2/3 加载参数
 # download resnet18-f37072fd.pth from: 
 # https://download.pytorch.org/models/resnet18-f37072fd.pth
-path_pretrained_model = os.path.join(BASEDIR, "model_zoo", "resnet18-f37072fd.pth")
-state_dict_load = torch.load(path_pretrained_model)
+candidate_paths = [
+    os.path.join(BASEDIR, "model_zoo", "resnet18-f37072fd.pth"),
+    os.path.join(BASEDIR, "resnet18-f37072fd.pth"),
+]
+path_pretrained_model = next((path for path in candidate_paths if os.path.isfile(path)), None)
+if path_pretrained_model is None:
+    raise FileNotFoundError(
+        "Cannot find pretrained weights resnet18-f37072fd.pth. "
+        "Place it in chapter-7 or chapter-7/model_zoo."
+    )
+
+state_dict_load = torch.load(path_pretrained_model, map_location=device)
 resnet18_ft.load_state_dict(state_dict_load)
 
 # 法1: 冻结卷积层
@@ -244,5 +255,13 @@ for epoch in range(start_epoch + 1, max_epoch):
     conf_mat_figure = show_conf_mat(conf_mat, list(label_name.keys()), "valid", log_dir, epoch=epoch, verbose=epoch == max_epoch - 1)
     writer.add_figure('confusion_matrix_valid', conf_mat_figure, global_step=epoch)
 print('Finished Training')
+
+# ============================ 保存模型权重 ============================
+# 注意：此处模型变量名为 resnet18_ft，如果你的变量名是 model、net 或其他，
+#       请将下面的 resnet18_ft 替换为对应的变量名。
+# 使用 PyTorch 推荐的最佳实践：只保存 state_dict（权重参数），而非整个模型结构。
+save_path = os.path.join(BASEDIR, "my_finetuned_model.pth")
+torch.save(resnet18_ft.state_dict(), save_path)
+print("模型权重已保存至：{}".format(os.path.abspath(save_path)))
 
 
