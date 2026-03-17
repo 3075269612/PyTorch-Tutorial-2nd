@@ -88,7 +88,8 @@ class Vocabulary:
 if __name__ == '__main__':
     max_vocab_size = 20000
     BASE_DIR = os.path.dirname(__file__)
-    path = os.path.join(BASE_DIR, 'data', 'aclImdb', 'train')
+    # !!! 先解压同目录下的数据集压缩包
+    path = os.path.join(BASE_DIR, '..', 'aclImdb_v1', 'train')
     out_dir = os.path.join(BASE_DIR, 'result')
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)

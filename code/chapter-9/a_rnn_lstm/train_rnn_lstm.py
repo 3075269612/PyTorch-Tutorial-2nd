@@ -30,9 +30,9 @@ def get_args_parser(add_help=True):
 
     parser = argparse.ArgumentParser(description="PyTorch Classification Training", add_help=add_help)
 
-    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "data", "aclImdb"), type=str,
+    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "..", "aclImdb_v1"), type=str,
                         help="dataset path")
-    parser.add_argument("--glove-file-path", default=os.path.join(os.path.dirname(__file__), "data", "glove.6B.100d.txt"), type=str,
+    parser.add_argument("--glove-file-path", default=os.path.join(os.path.dirname(__file__), "..", "glove.6B.100d.txt"), type=str,
                         help="预训练词向量文件")
     parser.add_argument("--model-mode", default="lstm", type=str, help="模型类型，rnn还是lstm")
     parser.add_argument("--device", default="cuda", type=str, help="device (Use cuda or cpu Default: cuda)")

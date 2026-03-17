@@ -27,6 +27,7 @@ code/**/hymenoptera_data.zip
 code/**/cifar10-office/
 *.tar.gz
 *.zip
+!code/chapter-9/a_rnn_lstm/aclImdb_v1.tar.gz
 
 # Model weights/checkpoints
 *.pt
