@@ -30,7 +30,7 @@ def get_args_parser(add_help=True):
 
     parser = argparse.ArgumentParser(description="PyTorch Classification Training", add_help=add_help)
 
-    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "..", "aclImdb_v1"), type=str,
+    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "aclImdb"), type=str,
                         help="dataset path")
     parser.add_argument("--glove-file-path", default=os.path.join(os.path.dirname(__file__), "..", "glove.6B.100d.txt"), type=str,
                         help="预训练词向量文件")
