@@ -12,8 +12,8 @@ import torch
 import torch.nn as nn
 
 BASE_DIR = os.path.dirname(__file__)
-PRJ_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
-sys.path.append(PRJ_DIR)
+# PRJ_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+sys.path.append(BASE_DIR)
 
 
 class EncoderLSTM(nn.Module):

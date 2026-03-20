@@ -10,10 +10,9 @@ import os
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
 
-BASE_DIR = os.path.dirname(__file__)
-PRJ_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
-sys.path.append(PRJ_DIR)
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# 上一级目录是 b_seq2seq
+sys.path.append(os.path.join(BASE_DIR, ".."))
 
 from b_gen_vocabulary import read_data_nmt, text_preprocess, text_split
 
