@@ -28,8 +28,8 @@ def get_args_parser(add_help=True):
     import argparse
 
     parser = argparse.ArgumentParser(description="PyTorch Classification Training", add_help=add_help)
-    parser.add_argument("--ckpt-path", default=r"./Result/2023-11-15_23-31-53/checkpoint_best.pth", type=str, help="ckpt path")
-    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "data", "fra-eng"), type=str,
+    parser.add_argument("--ckpt-path", default=os.path.join(os.path.dirname(__file__), "result", "checkpoint_best.pth"), type=str, help="ckpt path")
+    parser.add_argument("--data-path", default=os.path.join(os.path.dirname(__file__), "data", "cmn-eng"), type=str,
                         help="dataset path")
     parser.add_argument("--device", default="cuda", type=str, help="device (Use cuda or cpu Default: cuda)")
     parser.add_argument("--random-seed", default=42, type=int, help="random seed")
@@ -58,23 +58,23 @@ if __name__ == "__main__":
     root_dir = args.data_path
 
     vocab_path_en = os.path.join(BASE_DIR, 'result', "vocab_en.npy")
-    vocab_path_fra = os.path.join(BASE_DIR, 'result', "vocab_fra.npy")
+    vocab_path_cmn = os.path.join(BASE_DIR, 'result', "vocab_cmn.npy")
 
     vocab_en = np.load(vocab_path_en, allow_pickle=True).item()
-    vocab_fra = np.load(vocab_path_fra, allow_pickle=True).item()
+    vocab_cmn = np.load(vocab_path_cmn, allow_pickle=True).item()
 
     path_txt_train = os.path.join(root_dir, 'train.txt')
     path_txt_test = os.path.join(root_dir, 'test.txt')
 
-    train_set = NMTDataset(path_txt_train, vocab_path_en, vocab_path_fra, max_len=max_len)
-    test_set = NMTDataset(path_txt_test, vocab_path_en, vocab_path_fra, max_len=max_len)
+    train_set = NMTDataset(path_txt_train, vocab_path_en, vocab_path_cmn, max_len=max_len)
+    test_set = NMTDataset(path_txt_test, vocab_path_en, vocab_path_cmn, max_len=max_len)
 
-    vocab_fra_inv = {value: key for key, value in vocab_fra.items()}
+    vocab_cmn_inv = {value: key for key, value in vocab_cmn.items()}
     vocab_en_inv = {value: key for key, value in vocab_en.items()}
 
     # ------------------------------------ step2: model ------------------------------------
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    src_vocab_len, trg_vocab_len = len(vocab_en), len(vocab_fra)
+    src_vocab_len, trg_vocab_len = len(vocab_en), len(vocab_cmn)
     input_size_encoder, input_size_decoder, output_size = src_vocab_len, trg_vocab_len, trg_vocab_len
 
     encoder_lstm = EncoderLSTM(input_size_encoder, encoder_embedding_size,
@@ -91,13 +91,43 @@ if __name__ == "__main__":
     model.to(device)
     model.eval()
     # ------------------------------------ step3: inference ------------------------------------
-    max_step = 32
+    max_step = 20
 
     for idx, data in enumerate(test_set):
         # 只推理10个样本
         if idx == 10:
             break
         src_idx, _,  trg_idx, _ = data
+        
+        # 增加batch维度，并移动到device
+        src_tensor = torch.tensor(src_idx, dtype=torch.long).unsqueeze(1).to(device) # [seq_len, 1]
+        
+        with torch.no_grad():
+            hidden, cell = model.Encoder_LSTM(src_tensor)
+        
+        outputs = [vocab_cmn['<bos>']]
+        
+        for _ in range(max_step):
+            previous_word = torch.tensor([outputs[-1]], dtype=torch.long).to(device)
+            with torch.no_grad():
+                output, hidden, cell = model.Decoder_LSTM(previous_word, hidden, cell)
+                best_guess = output.argmax(1).item()
+            
+            outputs.append(best_guess)
+            
+            if best_guess == vocab_cmn['<eos>']:
+                break
+                
+        # 解码
+        src_sentence = [vocab_en_inv[x] for x in src_idx if x not in [vocab_en['<pad>'], vocab_en['<bos>'], vocab_en['<eos>']]]
+        trg_real = [vocab_cmn_inv[x] for x in trg_idx if x not in [vocab_cmn['<pad>'], vocab_cmn['<bos>'], vocab_cmn['<eos>']]]
+        trg_pred = [vocab_cmn_inv[x] for x in outputs if x not in [vocab_cmn['<pad>'], vocab_cmn['<bos>'], vocab_cmn['<eos>']]]
+        
+        print(f"Sample {idx}:")
+        print(f"Src: {' '.join(src_sentence)}")
+        print(f"Trg: {''.join(trg_real)}")
+        print(f"Pred: {''.join(trg_pred)}")
+        print("-" * 20)
 
         # 获取文本索引
         src_idx_raw, trg_idx_raw = [], []

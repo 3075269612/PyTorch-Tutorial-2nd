@@ -33,11 +33,37 @@ def split_dataset(input_file, train_file, valid_file, split_ratio_):
 
 if __name__ == '__main__':
     random.seed(42)
+    import zipfile
 
-    data_dir = os.path.join(os.path.dirname(__file__), "data", "cmn-eng")
+    base_dir = os.path.dirname(__file__)
+    data_dir = os.path.join(base_dir, "data", "cmn-eng")
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+
+    # 自动解压处理
+    zip_path = os.path.join(base_dir, "cmn-eng.zip")
     path_raw = os.path.join(data_dir, "cmn.txt")
+    
+    if not os.path.exists(path_raw):
+        if os.path.exists(zip_path):
+            print(f"正在解压 {zip_path} ...")
+            with zipfile.ZipFile(zip_path, 'r') as zf:
+                zf.extractall(data_dir)
+            print("解压完成")
+        else:
+            print(f"错误: 未找到 {path_raw} 且未找到压缩包 {zip_path}")
+            # 尝试查找上一级目录
+            zip_path_up = os.path.join(base_dir, "..", "cmn-eng.zip")
+            if os.path.exists(zip_path_up):
+                 print(f"正在解压 {zip_path_up} ...")
+                 with zipfile.ZipFile(zip_path_up, 'r') as zf:
+                    zf.extractall(data_dir)
+            
     path_train = os.path.join(data_dir, "train.txt")
     path_test = os.path.join(data_dir, "test.txt")
     split_ratio = 0.8
 
-    split_dataset(path_raw, path_train, path_test, split_ratio)
+    if os.path.exists(path_raw):
+        split_dataset(path_raw, path_train, path_test, split_ratio)
+    else:
+        print("无法执行划分：找不到原数据文件 cmn.txt")

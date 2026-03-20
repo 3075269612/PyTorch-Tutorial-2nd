@@ -66,14 +66,14 @@ if __name__ == "__main__":
 
     # ------------------------------------ step1: dataset ------------------------------------
     vocab_path_en = os.path.join(BASE_DIR, 'result', "vocab_en.npy")
-    vocab_path_fra = os.path.join(BASE_DIR, 'result', "vocab_cmn.npy")
+    vocab_path_cmn = os.path.join(BASE_DIR, 'result', "vocab_cmn.npy")
 
     root_dir = args.data_path
     path_txt_train = os.path.join(root_dir, 'train.txt')
     path_txt_test = os.path.join(root_dir, 'test.txt')
 
-    train_set = NMTDataset(path_txt_train, vocab_path_en, vocab_path_fra, max_len=max_len)
-    test_set = NMTDataset(path_txt_test, vocab_path_en, vocab_path_fra, max_len=max_len)
+    train_set = NMTDataset(path_txt_train, vocab_path_en, vocab_path_cmn, max_len=max_len)
+    test_set = NMTDataset(path_txt_test, vocab_path_en, vocab_path_cmn, max_len=max_len)
     train_loader = DataLoader(dataset=train_set, batch_size=args.batch_size, shuffle=True, num_workers=args.workers)
     valid_loader = DataLoader(dataset=test_set, batch_size=1, shuffle=False, num_workers=args.workers)
 
